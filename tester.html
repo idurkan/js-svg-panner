@@ -1,0 +1,24 @@
+<html>
+<head>
+	<title>SVG Panner Test</title>
+	<script src="deps/jquery-1.10.2.js"></script>
+	<script src="src/svg-panner.js"></script>
+</head>
+<body>
+    <div>
+    	<svg>
+    		<g id = "panner">
+	    		<circle cx="100" cy="50" r="25" stroke="black" stroke-width="3" fill="red"/>
+	    		<circle cx="40" cy="75" r="20" stroke="black" stroke-width="3" fill="green"/>
+	    		<circle cx="80" cy="100" r="35" stroke="black" stroke-width="3" fill="blue"/>
+	    	</g>
+    	</svg>
+    </div>
+</body>
+<script>
+	$(function() {
+		svgPanner.setTargetGroup('svg g#panner');
+		svgPanner.setSettings({zoomScale: 0.10, doZoom: true})
+	});
+</script>
+</html>
