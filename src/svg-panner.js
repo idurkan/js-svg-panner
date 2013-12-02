@@ -18,164 +18,163 @@ limitations under the License.
 
 "use strict";
 
-var svgPanner = (function() {
-	// the current transformation matrix to SVG coordinates
-	var currentTfMatrix;
+// TODO: set minimum and maximum scale parameters
+// TODO: allow user to add handlers for panning and zooming.
+// TODO: test in IE, Firefox Safari browsers
 
-	// TODO: set minimum and maximum scale parameters
-	// TODO: allow user to add handlers for panning and zooming.
-	// TODO: allow user to set initial scale and translation transform.
-	// TODO: test in Firefox, IE, Safari browsers
+var SvgPanner = function(queryString) {
+    // the current transformation matrix to SVG coordinates
+    this.currentTfMatrix = undefined;
 
-	var targetSvgSel;
-	var targetSvg;
-	var targetGroup;
+    this.targetSvgSel = undefined;
+    this.targetSvg = undefined;
+    this.targetGroup = undefined;
 
-	var zoomScale = 0.30;
-	var doZoom = true;
+    this.zoomScale = undefined;
+    this.doZoom = undefined;
 
-	var nowPanning = false;
-	var panStartCoords;
+    this.nowPanning = false;
+    this.panStartCoords;
 
-	function setTargetGroup(queryString) {
-		var groupSel = $(queryString);
-		init(groupSel);
-	}
+    var groupSel = $(queryString);
+    this.init(groupSel);
+}
 
-	function init(groupSel) {
-		targetGroup = groupSel[0];
-		targetSvgSel = groupSel.parent('svg');
-		targetSvg = targetSvgSel[0];
+SvgPanner.prototype.init = function(groupSel) {
+    this.targetGroup = groupSel[0];
+    this.targetSvgSel = groupSel.parent('svg');
+    this.targetSvg = this.targetSvgSel[0];
 
-		currentTfMatrix = targetGroup.getCTM().inverse();
-		
-		addMouseHandlers();
-	}
+    this.currentTfMatrix = this.targetGroup.getCTM().inverse();
 
-	function setSettings(settings) {
-		zoomScale = settings.zoomScale || 0.30;
-		doZoom = settings.doZoom && true;
-		console.log('foo');
-	}
+    this.setSettings({});        
+    this.addMouseHandlers();
+}
 
-	function addMouseHandlers() {
-		targetSvgSel.on('mouseup', onMouseUp);
-		targetSvgSel.on('mousedown', onMouseDown);
-		targetSvgSel.on('mousemove', onMouseMove);
-		targetSvgSel.on('mousewheel', onMouseWheel);
-		targetSvgSel.on('wheel', onMouseWheel);
-	}
+SvgPanner.prototype.setSettings = function(settings) {
+    this.zoomScale = settings['zoomScale'] || 0.30;
+    this.doZoom = settings['doZoom'] && true;
+}
 
-	function getSvgElem() {
-		return targetSvg
-	}
 
-	function getPointForEvent(event) {
-		var point = targetSvg.createSVGPoint();
-		point.x = event.clientX;
-		point.y = event.clientY;
-		return point;
-	}
+SvgPanner.prototype.setTransformation = function(scaleFactor, transX, transY) {
+    this.setTransformMatrix(this.targetSvg.createSVGMatrix().scale(scaleFactor).translate(transX, transY));
+    this.currentTfMatrix = targetGroup.getCTM().inverse();
+}
 
-	function onMouseUp(event) {
-		event.preventDefault();
+SvgPanner.prototype.setScale = function(scaleFactor) {
+    this.setTransformMatrix(this.currentTfMatrix.inverse().scale(scaleFactor));
+}
 
-		if (nowPanning) {
-			nowPanning = false;
-		}
-	}
+SvgPanner.prototype.setTranslation = function(transX, transY) {
+    this.setTransformMatrix(this.currentTfMatrix.inverse().translate(transX, transY));
+}
 
-	function onMouseDown(event) {
-		event.preventDefault();
+SvgPanner.prototype.getSvgElem = function() {
+    return this.targetSvg;
+}
 
-		if (!nowPanning) {
-			nowPanning = true;
-		}
+SvgPanner.prototype.getPointForEvent = function(event) {
+    var point = this.targetSvg.createSVGPoint();
+    point.x = event.clientX;
+    point.y = event.clientY;
+    return point;
+}
 
-		currentTfMatrix = targetGroup.getCTM().inverse();
-		panStartCoords = getPointForEvent(event);
-	}
+SvgPanner.prototype.addMouseHandlers = function() {
+    this.targetSvgSel.on('mouseup', $.proxy(onMouseUp, this));
+    this.targetSvgSel.on('mousedown', $.proxy(onMouseDown, this));
+    this.targetSvgSel.on('mousemove', $.proxy(onMouseMove, this));
+    this.targetSvgSel.on('mousewheel wheel DOMMouseScroll', $.proxy(onMouseWheel, this));
+}
 
-	function onMouseMove(event) {
-		event.preventDefault();
-		var curClientCoords;
+function onMouseUp(event) {
+    if (this.nowPanning) {
+        this.nowPanning = false;
+    }
 
-		if (nowPanning) {
-			curClientCoords = getPointForEvent(event);
-			setTransformMatrix(currentTfMatrix.translate(panStartCoords.x - curClientCoords.x, panStartCoords.y - curClientCoords.y).inverse())
-		}
-	}
+    this.currentTfMatrix = this.targetGroup.getCTM().inverse();
+}
 
-	function onMouseWheel(event) {
-		event.preventDefault();
+function onMouseDown(event) {
+    if (!this.nowPanning) {
+        this.nowPanning = true;
+    }
 
-		if (!doZoom || nowPanning) {
-			return;
-		}
+    this.currentTfMatrix = this.targetGroup.getCTM().inverse();
+    this.panStartCoords = this.getPointForEvent(event);
+}
 
-		var delta = event.originalEvent.wheelDelta / 360
-		var zoomFactor = Math.pow(1 + zoomScale, delta);
+function onMouseMove(event) {
+    var eventClientCoords;
 
-		var mousePoint = getPointForEvent(event);
+    if (this.nowPanning) {
+        eventClientCoords = this.getPointForEvent(event);
+        this.setTransformMatrix(this.currentTfMatrix.translate(this.panStartCoords.x - eventClientCoords.x, this.panStartCoords.y - eventClientCoords.y).inverse())
+    }
+}
 
-		// point in SVG coord system
-		var svgPoint = mousePoint.matrixTransform(targetGroup.getCTM().inverse());
+function onMouseWheel(event) {
+    // don't scroll the page if the user rolls the wheel on a page with a scroll bar.
+    event.preventDefault();
 
-		var adjustmentMatrix = targetSvg.createSVGMatrix().translate(svgPoint.x, svgPoint.y).scale(zoomFactor).translate(-svgPoint.x, -svgPoint.y);
+    if (!this.doZoom || this.nowPanning) {
+        return;
+    }
 
-		// update matrix going to screen coords
-        setTransformMatrix(targetGroup.getCTM().multiply(adjustmentMatrix));
+    var delta = zoomInOrOut(event);
+    var zoomFactor = Math.pow(1 + this.zoomScale, delta);
 
-        // store inverse matrix going to SVG coords...
-        currentTfMatrix = currentTfMatrix.multiply(adjustmentMatrix.inverse());
-	}
+    var mousePoint = this.getPointForEvent(event);
 
-	function setTransformMatrix(matrix) {
-		var matrixStr = "matrix(" + [matrix.a, matrix.b, matrix.c, matrix.d, matrix.e, matrix.f].join() + ")";
-		targetGroup.setAttribute('transform', matrixStr);
-	}
+    // point in SVG coord system
+    var svgPoint = mousePoint.matrixTransform(this.targetGroup.getCTM().inverse());
 
-	function svgToClientCoords(x, y) {
-		var svgPoint = targetSvg.createSVGPoint();
-		svgPoint.x = x;
-		svgPoint.y = y;
+    var adjustmentMatrix = this.targetSvg.createSVGMatrix().translate(svgPoint.x, svgPoint.y).scale(zoomFactor).translate(-svgPoint.x, -svgPoint.y);
 
-		return svgPoint.matrixTransform(currentTfMatrix.inverse());
-	}
+    // update matrix going to screen coords
+    this.setTransformMatrix(this.targetGroup.getCTM().multiply(adjustmentMatrix));
 
-	function clientToSvgCoords(x, y) {
-		var svgPoint = targetSvg.createSVGPoint();
-		svgPoint.x = x;
-		svgPoint.y = y;
+    // store inverse matrix going to SVG coords...
+    this.currentTfMatrix = this.currentTfMatrix.multiply(adjustmentMatrix.inverse());
+}
 
-		return svgPoint.matrixTransform(currentTfMatrix);
-	}
+// returns 1 if the user wants to 'zoom in' on a mouse wheel event or -1 for 'zoom out'
+function zoomInOrOut(jqueryWheelEvent) {
+    var origEvt = jqueryWheelEvent.originalEvent;
+    return (origEvt.detail < 0 || origEvt.wheelDelta > 0) ? 1 : -1;
+}
 
-	function addPanStartListener(listener) {
+SvgPanner.prototype.setTransformMatrix = function(matrix) {
+    var matrixStr = "matrix(" + [matrix.a, matrix.b, matrix.c, matrix.d, matrix.e, matrix.f].join() + ")";
+    this.targetGroup.setAttribute('transform', matrixStr);
+}
 
-	}
+SvgPanner.prototype.svgToClientCoords = function(x, y) {
+    var svgPoint = this.targetSvg.createSVGPoint();
+    svgPoint.x = x;
+    svgPoint.y = y;
 
-	function addPanEndListener(listener) {
+    return svgPoint.matrixTransform(this.currentTfMatrix.inverse());
+}
 
-	}
+SvgPanner.prototype.clientToSvgCoords = function(x, y) {
+    var svgPoint = this.targetSvg.createSVGPoint();
+    svgPoint.x = x;
+    svgPoint.y = y;
 
-	function addZoomChangeListener(listener) {
+    return svgPoint.matrixTransform(this.currentTfMatrix);
+}
 
-	}
+SvgPanner.prototype.addPanStartListener = function(listener) {
 
-	return {
-		setTargetGroup: setTargetGroup,
-		setSettings: setSettings,
+}
 
-		svgToClientCoords: svgToClientCoords,
-		clientToSvgCoords: clientToSvgCoords,
+SvgPanner.prototype.addPanEndListener = function(listener) {
 
-		addPanStartListener: addPanStartListener,
-		addPanEndListener: addPanEndListener,
+}
 
-		addZoomChangeListener: addZoomChangeListener,
+SvgPanner.prototype.addZoomChangeListener = function(listener) {
 
-		getSvgElem: getSvgElem
-	}
-})();
+}
 
