@@ -18,10 +18,6 @@ limitations under the License.
 
 "use strict";
 
-// TODO: set minimum and maximum scale parameters
-// TODO: allow user to add handlers for panning and zooming.
-// TODO: test in IE, Firefox Safari browsers
-
 var SvgPanner = function(queryString) {
     // the current transformation matrix to SVG coordinates
     this.currentTfMatrix = undefined;
