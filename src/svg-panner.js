@@ -33,6 +33,9 @@ var SvgPanner = function(queryString) {
     this.zoomScale = undefined;
     this.doZoom = undefined;
 
+    this.maxZoomFactor = undefined;
+    this.minZoomFactor = undefined;
+
     this.nowPanning = false;
     this.panStartCoords;
 
@@ -54,6 +57,8 @@ SvgPanner.prototype.init = function(groupSel) {
 SvgPanner.prototype.setSettings = function(settings) {
     this.zoomScale = settings['zoomScale'] || 0.30;
     this.doZoom = settings['doZoom'] && true;
+    this.minZoomFactor = settings['minZoomFactor'] || 0.50;
+    this.maxZoomFactor = settings['maxZoomFactor'] || 5.00;
 }
 
 
@@ -131,12 +136,23 @@ function onMouseWheel(event) {
     var svgPoint = mousePoint.matrixTransform(this.targetGroup.getCTM().inverse());
 
     var adjustmentMatrix = this.targetSvg.createSVGMatrix().translate(svgPoint.x, svgPoint.y).scale(zoomFactor).translate(-svgPoint.x, -svgPoint.y);
+    var newTfMatrix = this.targetGroup.getCTM().multiply(adjustmentMatrix);
+
+    // a and d fields control the scaling; they should be identical so check only a.
+    var zoomNow = true;
+    if (newTfMatrix.a < this.minZoomFactor) {
+        zoomNow = false;
+    } else if (newTfMatrix.a > this.maxZoomFactor) {
+        zoomNow = false;
+    }
 
     // update matrix going to screen coords
-    this.setTransformMatrix(this.targetGroup.getCTM().multiply(adjustmentMatrix));
+    if (zoomNow) {
+        this.setTransformMatrix(newTfMatrix);
 
-    // store inverse matrix going to SVG coords...
-    this.currentTfMatrix = this.currentTfMatrix.multiply(adjustmentMatrix.inverse());
+        // store inverse matrix going back to SVG coords...
+        this.currentTfMatrix = this.currentTfMatrix.multiply(adjustmentMatrix.inverse());
+    }
 }
 
 // returns 1 if the user wants to 'zoom in' on a mouse wheel event or -1 for 'zoom out'
