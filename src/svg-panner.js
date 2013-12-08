@@ -77,8 +77,8 @@ SvgPanner.prototype.getSvgElem = function() {
 
 SvgPanner.prototype.getPointForEvent = function(event) {
     var point = this.targetSvg.createSVGPoint();
-    point.x = event.clientX;
-    point.y = event.clientY;
+    point.x = event.originalEvent.clientX;
+    point.y = event.originalEvent.clientY;
     return point;
 }
 
@@ -154,7 +154,7 @@ function onMouseWheel(event) {
 // returns 1 if the user wants to 'zoom in' on a mouse wheel event or -1 for 'zoom out'
 function zoomInOrOut(jqueryWheelEvent) {
     var origEvt = jqueryWheelEvent.originalEvent;
-    return (origEvt.detail < 0 || origEvt.wheelDelta > 0) ? 1 : -1;
+    return (origEvt.detail < 0 || origEvt.wheelDelta > 0 || origEvt.deltaY < 0) ? 1 : -1;
 }
 
 SvgPanner.prototype.setTransformMatrix = function(matrix) {
