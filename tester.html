@@ -4,9 +4,23 @@
 	<title>SVG Panner Test</title>
 	<script src="deps/jquery-1.10.2.js"></script>
 	<script src="src/svg-panner.js"></script>
+	<style>
+	div.container {
+		border-width: 3px;
+		border-style: solid;
+		margin: 5px;
+		width: 640px;
+		height: 480px;
+	}
+
+	svg {
+		width: 100%;
+		height: 100%;
+	}
+	</style>
 </head>
 <body>
-    <div>
+    <div class="container"> <!--width="640" height="480" viewBox="0 0 640 480" -->
     	<svg>
     		<g id="panner">
 	    		<circle cx="100" cy="50" r="25" stroke="black" stroke-width="3" fill="red"/>
