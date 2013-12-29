@@ -5,37 +5,60 @@
 	<script src="deps/jquery-1.10.2.js"></script>
 	<script src="src/svg-panner.js"></script>
 	<style>
-	div.container {
+	div#container1 {
 		border-width: 3px;
 		border-style: solid;
 		margin: 5px;
 		width: 640px;
-		height: 480px;
-	}
+        height: 480px;
+    }
 
-	svg {
-		width: 100%;
-		height: 100%;
-	}
-	</style>
+    div#container2 {
+        border-width: 3px;
+        border-style: solid;
+        margin: 5px;
+        width: 640px;
+        height: 480px;
+  }
+
+  svg {
+      width: 100%;
+      height: 100%;
+  }
+
+  </style>
 </head>
 <body>
-    <div class="container"> <!--width="640" height="480" viewBox="0 0 640 480" -->
-    	<svg>
-    		<g id="panner">
-	    		<circle cx="100" cy="50" r="25" stroke="black" stroke-width="3" fill="red"/>
-	    		<circle cx="40" cy="75" r="20" stroke="black" stroke-width="3" fill="green"/>
-	    		<circle cx="80" cy="100" r="35" stroke="black" stroke-width="3" fill="blue"/>
-	    	</g>
-    	</svg>
-    </div>
-<script>
+	<div id="container1">
+		<svg>
+			<g id="panner">
+				<circle cx="320" cy="135" r="90" stroke="black" stroke-width="3" fill="red"/>
+				<circle cx="230" cy="291" r="90" stroke="black" stroke-width="3" fill="green"/>
+				<circle cx="410" cy="291" r="90" stroke="black" stroke-width="3" fill="blue"/>
+			</g>
+		</svg>
+	</div>
+	<div id="container2">
+		<svg>
+			<g id="panner">
+				<circle cx="450" cy="120" r="110" stroke="black" stroke-width="3" fill="orange"/>
+				<circle cx="120" cy="150" r="80" stroke="black" stroke-width="3" fill="purple"/>
+				<circle cx="300" cy="350" r="100" stroke="black" stroke-width="3" fill="yellow"/>
+			</g>
+		</svg>
+	</div>
+	<script>
 	$(function() {
-		var panner = new SvgPanner('svg g#panner')
+		var panner = new SvgPanner('div#container1 svg g#panner')
 		panner.setSettings({zoomScale: 0.15, doZoom: true});
 		panner.setScale(1.3);
-		panner.setTranslation(50, -50);
+		panner.setTranslation(0, 0);
+
+        var panner = new SvgPanner('div#container2 svg g#panner')
+        panner.setSettings({zoomScale: 0.25, doZoom: true});
+        panner.setScale(2.0);
+        panner.setTranslation(40, 40);
 	});
-</script>
+	</script>
 </body>
 </html>

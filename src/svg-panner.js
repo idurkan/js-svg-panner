@@ -35,6 +35,10 @@ var SvgPanner = function(queryString) {
     this.nowPanning = false;
     this.panStartCoords;
 
+    this.panStartListeners = [];
+    this.panEndListeners = [];
+    this.zoomChangeListeners = [];
+
     var groupSel = $(queryString);
     this.init(groupSel);
 }
@@ -77,8 +81,13 @@ SvgPanner.prototype.getSvgElem = function() {
 
 SvgPanner.prototype.getPointForEvent = function(event) {
     var point = this.targetSvg.createSVGPoint();
-    point.x = event.originalEvent.clientX;
-    point.y = event.originalEvent.clientY;
+    var svgElemOffset = this.targetSvgSel.offset()
+
+    console.log('Client event coords: ' + event.originalEvent.clientX + '; ' + event.originalEvent.clientY)
+    console.log('offset left/top:' + svgElemOffset.left + ', ' + svgElemOffset.top)
+
+    point.x = event.originalEvent.clientX - svgElemOffset.left + $(window).scrollLeft();
+    point.y = event.originalEvent.clientY - svgElemOffset.top + $(window).scrollTop();
     return point;
 }
 
@@ -90,20 +99,22 @@ SvgPanner.prototype.addMouseHandlers = function() {
 }
 
 function onMouseUp(event) {
+    this.currentTfMatrix = this.targetGroup.getCTM().inverse();
+
     if (this.nowPanning) {
         this.nowPanning = false;
+        notify(panEndListeners, event.originalEvent);
     }
-
-    this.currentTfMatrix = this.targetGroup.getCTM().inverse();
 }
 
 function onMouseDown(event) {
-    if (!this.nowPanning) {
-        this.nowPanning = true;
-    }
-
     this.currentTfMatrix = this.targetGroup.getCTM().inverse();
     this.panStartCoords = this.getPointForEvent(event);
+
+    if (!this.nowPanning) {
+        this.nowPanning = true;
+        notify(panStartListeners, event.originalEvent);
+    }
 }
 
 function onMouseMove(event) {
@@ -148,6 +159,8 @@ function onMouseWheel(event) {
 
         // store inverse matrix going back to SVG coords...
         this.currentTfMatrix = this.currentTfMatrix.multiply(adjustmentMatrix.inverse());
+
+        notify(zoomChangeListeners, event.originalEvent);
     }
 }
 
@@ -155,6 +168,12 @@ function onMouseWheel(event) {
 function zoomInOrOut(jqueryWheelEvent) {
     var origEvt = jqueryWheelEvent.originalEvent;
     return (origEvt.detail < 0 || origEvt.wheelDelta > 0 || origEvt.deltaY < 0) ? 1 : -1;
+}
+
+function notify(listenerList, event) {
+    for (var i = 0, listener; listener = listenerList[i]; ++i) {
+        listener(event);
+    }
 }
 
 SvgPanner.prototype.setTransformMatrix = function(matrix) {
@@ -179,14 +198,14 @@ SvgPanner.prototype.clientToSvgCoords = function(x, y) {
 }
 
 SvgPanner.prototype.addPanStartListener = function(listener) {
-
+    panStartListeners.push(listener);
 }
 
 SvgPanner.prototype.addPanEndListener = function(listener) {
-
+    panEndListeners.push(listener);
 }
 
 SvgPanner.prototype.addZoomChangeListener = function(listener) {
-
+    zoomChangeListeners.push(listener);
 }
 
