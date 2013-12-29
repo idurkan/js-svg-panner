@@ -5,59 +5,87 @@
 	<script src="deps/jquery-1.10.2.js"></script>
 	<script src="src/svg-panner.js"></script>
 	<style>
-	div#container1 {
-		border-width: 3px;
-		border-style: solid;
-		margin: 5px;
-		width: 640px;
-        height: 480px;
+
+    div.outerContainer {
+        clear: left;
     }
 
-    div#container2 {
+    div.divContainer {
+        float: left;
         border-width: 3px;
         border-style: solid;
         margin: 5px;
         width: 640px;
         height: 480px;
-  }
+    }
 
-  svg {
+    div.outerContainer textarea {
+        margin: 5px;
+        width: 360px;
+        height: 480px;
+    }
+
+    svg {
       width: 100%;
       height: 100%;
-  }
+    }
 
   </style>
 </head>
 <body>
-	<div id="container1">
-		<svg>
-			<g id="panner">
-				<circle cx="320" cy="135" r="90" stroke="black" stroke-width="3" fill="red"/>
-				<circle cx="230" cy="291" r="90" stroke="black" stroke-width="3" fill="green"/>
-				<circle cx="410" cy="291" r="90" stroke="black" stroke-width="3" fill="blue"/>
-			</g>
-		</svg>
-	</div>
-	<div id="container2">
-		<svg>
-			<g id="panner">
-				<circle cx="450" cy="120" r="110" stroke="black" stroke-width="3" fill="orange"/>
-				<circle cx="120" cy="150" r="80" stroke="black" stroke-width="3" fill="purple"/>
-				<circle cx="300" cy="350" r="100" stroke="black" stroke-width="3" fill="yellow"/>
-			</g>
-		</svg>
-	</div>
+    <div class="outerContainer">
+    	<div class="divContainer" id="container1">
+    		<svg>
+    			<g id="panner">
+    				<circle cx="320" cy="135" r="90" stroke="black" stroke-width="3" fill="red"/>
+    				<circle cx="230" cy="291" r="90" stroke="black" stroke-width="3" fill="green"/>
+    				<circle cx="410" cy="291" r="90" stroke="black" stroke-width="3" fill="blue"/>
+    			</g>
+    		</svg>
+    	</div>
+        <textarea id="panner1text"></textarea>
+    </div>
+    <div class="outerContainer">
+    	<div class="divContainer" id="container2">
+    		<svg>
+    			<g id="panner">
+    				<circle cx="450" cy="120" r="110" stroke="black" stroke-width="3" fill="orange"/>
+    				<circle cx="120" cy="150" r="80" stroke="black" stroke-width="3" fill="purple"/>
+    				<circle cx="300" cy="350" r="100" stroke="black" stroke-width="3" fill="yellow"/>
+    			</g>
+    		</svg>
+    	</div>
+        <textarea id="panner2text"></textarea>
+    </div>
 	<script>
+
+    function makeTextAreaAppender(textAreaDom, text) {
+        return function(event) {
+            textAreaDom.value += text + ": " + event +"\n"
+        }
+    }
+
 	$(function() {
+        var text1 = document.getElementById('panner1text');
+        var text2 = document.getElementById('panner2text');
+
 		var panner = new SvgPanner('div#container1 svg g#panner')
 		panner.setSettings({zoomScale: 0.15, doZoom: true});
 		panner.setScale(1.3);
 		panner.setTranslation(0, 0);
 
+        panner.addPanStartListener(makeTextAreaAppender(text1, 'pan start'));
+        panner.addPanEndListener(makeTextAreaAppender(text1, 'pan end'));
+        panner.addZoomChangeListener(makeTextAreaAppender(text1, 'zoomed'));
+
         var panner = new SvgPanner('div#container2 svg g#panner')
         panner.setSettings({zoomScale: 0.25, doZoom: true});
         panner.setScale(2.0);
         panner.setTranslation(40, 40);
+
+        panner.addPanStartListener(makeTextAreaAppender(text2, 'pan start'));
+        panner.addPanEndListener(makeTextAreaAppender(text2, 'pan end'));
+        panner.addZoomChangeListener(makeTextAreaAppender(text2, 'zoomed'));
 	});
 	</script>
 </body>

@@ -1,0 +1,381 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"zoomC",
+				"addZoomChangeListener"
+			],
+			[
+				"list",
+				"listenerList"
+			],
+			[
+				"panStar",
+				"panStartListeners"
+			],
+			[
+				"wheel",
+				"wheelDelta"
+			],
+			[
+				"setTrans",
+				"setTranslation"
+			],
+			[
+				"setTran",
+				"setTransformMatrix"
+			],
+			[
+				"setTr",
+				"setTransformMatrix"
+			],
+			[
+				"scale",
+				"scaleFactor"
+			],
+			[
+				"scal",
+				"scaleFactor"
+			],
+			[
+				"create",
+				"createSVGMatrix"
+			],
+			[
+				"tar",
+				"targetSvgSel"
+			],
+			[
+				"cur",
+				"curClientCoords"
+			],
+			[
+				"curr",
+				"currentTfMatrix"
+			],
+			[
+				"matr",
+				"matrixTransform"
+			],
+			[
+				"get",
+				"getPointForEvent"
+			],
+			[
+				"matrx",
+				"matrixStr"
+			],
+			[
+				"ini",
+				"initializing"
+			],
+			[
+				"prot",
+				"prototype"
+			],
+			[
+				"back",
+				"background-color"
+			],
+			[
+				"fl",
+				"flipOut"
+			],
+			[
+				"fil",
+				"filterNonword"
+			],
+			[
+				"spl",
+				"splice2at5"
+			],
+			[
+				"wr",
+				"writeln"
+			],
+			[
+				"supe",
+				"super_getName"
+			],
+			[
+				"aut",
+				"automemoFibo"
+			],
+			[
+				"fib",
+				"fibbo"
+			],
+			[
+				"pro",
+				"prototype"
+			],
+			[
+				"pr",
+				"profession"
+			],
+			[
+				"subl",
+				"sublime_text"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "tester.html",
+			"settings":
+			{
+				"buffer_size": 1590,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/home/idurkan/.gitconfig",
+		"/home/idurkan/projects/svg-panner/README.md",
+		"/home/idurkan/projects/svg-panner/src/svg-panner.js",
+		"/home/idurkan/training/lucene/lucene-elasticsearch-tutorial/.gitignore",
+		"/home/idurkan/training/lucene/lucene-elasticsearch-tutorial/README.md",
+		"/home/idurkan/training/lucene/lucene-elasticsearch-tutorial/datasets/datasets/usernames.eloader",
+		"/home/idurkan/training/lucene/lucene-elasticsearch-tutorial/twitter-example-commands.txt",
+		"/home/idurkan/training/lucene/lucene-tutorial/build.gradle",
+		"/home/idurkan/training/js/ninjas/ch5-closures/whacked_memoize.html",
+		"/home/idurkan/training/js/ninjas/ch5-closures/tricky_this.html",
+		"/home/idurkan/training/js/ninjas/ch5-closures/bokusu.html",
+		"/home/idurkan/training/js/ninjas/ch2-testing/suite-with-grouping.html",
+		"/home/idurkan/training/js/ninjas/ch3-functions/constructor.html",
+		"/home/idurkan/training/js/ninjas/ch4-function-details/recursion.html",
+		"/home/idurkan/training/js/ninjas/ch4-function-details/memoization.html",
+		"/home/idurkan/training/js/ninjas/ch4-function-details/array_reuse.html",
+		"/home/idurkan/projects/java-ee-7-demo/build.gradle",
+		"/home/idurkan/training/js/ninjas/testing/simple-test-suite.html",
+		"/home/idurkan/training/js/the-good-parts/module1.js",
+		"/home/idurkan/projects/SpringMVC/src/main/webapp/WEB-INF/web.xml",
+		"/home/idurkan/projects/SpringMVC/src/main/webapp/WEB-INF/mvc-dispatcher-servlet.xml",
+		"/home/idurkan/projects/spring-mvc-simple-master/build.gradle",
+		"/home/idurkan/.bashrc",
+		"/home/idurkan/projects/cineasts/src/main/resources/applicationContext.xml",
+		"/home/idurkan/projects/cineasts/build.gradle",
+		"/home/idurkan/projects/cineasts/src/main/webapp/WEB-INF/views/landing.jsp",
+		"/home/idurkan/projects/cineasts/src/main/webapp/WEB-INF/web.xml",
+		"/home/idurkan/projects/cineasts/src/main/groovy/org/neo4j/cineasts/FirstController.groovy",
+		"/home/idurkan/projects/cineasts/src/main/webapp/WEB-INF/mvcServletConfig.xml",
+		"/home/idurkan/projects/cineasts/src/main/resources/mvcServletConfig.xml",
+		"/home/idurkan/.bash_aliases",
+		"/home/idurkan/projects/geb/doc/manual/manual.gradle"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"targetSvgSel",
+			"getPointForE",
+			"client",
+			"getPointForEvent",
+			"onMouseWheel",
+			"maxZoomScale",
+			"minZoomScale",
+			"getPointForEvent",
+			"setTransformMatrix",
+			"panStartCoords",
+			"nowPanning",
+			"doZoom",
+			"zoomScale",
+			"targetGroup",
+			"targetSvgSel",
+			"targetSvg",
+			"	",
+			"var ",
+			"setTargetGroup",
+			"getPointForEvent",
+			"getSvgElem",
+			"currentTfMatrix",
+			"curClientCoords",
+			"getSvgElem()",
+			"getSvgElem",
+			"targetSelection",
+			"setTargetDiv",
+			"settings",
+			"doZoom",
+			"console",
+			"console.log",
+			"currentTfMatrix",
+			"currentTransformString",
+			"transform(",
+			"currentTfMatrix",
+			"aString",
+			"ninja2.skulk",
+			"equal",
+			"c",
+			"memo",
+			"quo",
+			"manual",
+			"doc:manual"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"maxZoomFactor",
+			"minZoomFactor",
+			"this.getPointForEvent",
+			"this.setTransformMatrix",
+			"this.panStartCoords",
+			"this.nowPanning",
+			"this.doZoom",
+			"this.zoomScale",
+			"this.targetGroup",
+			"this.targetSvgSel",
+			"this.targetSvg",
+			"this.targetSvg    ",
+			"    ",
+			"this.",
+			"eventClientCoords",
+			"targetSvg",
+			"targetSvgSel",
+			"setTargetGroup",
+			"filtered",
+			"isPalindrome",
+			"ok",
+			"memory"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "tester.html",
+					"settings":
+					{
+						"buffer_size": 1590,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								235,
+								235
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 33.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"replace":
+	{
+		"height": 64.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true
+}
