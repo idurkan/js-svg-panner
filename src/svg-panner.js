@@ -24,6 +24,7 @@ var SvgPanner = function(queryString) {
 
     this.targetSvgSel = undefined;
     this.targetSvg = undefined;
+    this.htmlContainer = undefined;
     this.targetGroup = undefined;
 
     this.zoomScale = undefined;
@@ -46,6 +47,7 @@ var SvgPanner = function(queryString) {
 SvgPanner.prototype.init = function(groupSel) {
     this.targetGroup = groupSel[0];
     this.targetSvgSel = groupSel.parent('svg');
+    this.htmlContainer = this.targetSvgSel.parent()[0];
     this.targetSvg = this.targetSvgSel[0];
 
     this.currentTfMatrix = this.targetGroup.getCTM().inverse();
@@ -81,10 +83,11 @@ SvgPanner.prototype.getSvgElem = function() {
 
 SvgPanner.prototype.getPointForEvent = function(event) {
     var point = this.targetSvg.createSVGPoint();
-    var svgElemOffset = this.targetSvgSel.offset()
+    var clientBounds = this.htmlContainer.getBoundingClientRect();
 
-    point.x = event.originalEvent.clientX - svgElemOffset.left + $(window).scrollLeft();
-    point.y = event.originalEvent.clientY - svgElemOffset.top + $(window).scrollTop();
+    point.x = event.originalEvent.clientX - clientBounds.left;
+    point.y = event.originalEvent.clientY - clientBounds.top;
+
     return point;
 }
 
